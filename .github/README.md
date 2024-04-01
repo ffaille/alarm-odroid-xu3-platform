@@ -10,3 +10,6 @@ Tested with XU4 only (don't have XU3/HC1/HC2/MC1). Work in progress. Feedback is
 * cd alarm-odroid-xu3-platform
 * makepkg --syncdeps --noconfirm --log
 * sudo pacman -U ./odroid-xu3-platform-24.03-1-armv7h.pkg.tar.xz
+
+## Note
+Don't want to build the package? Download it [here](https://github.com/ffaille/alarm-binaries).
