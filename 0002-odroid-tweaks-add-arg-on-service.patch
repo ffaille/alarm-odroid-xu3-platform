@@ -1,0 +1,13 @@
+diff --git a/odroid-tweaks.service b/odroid-tweaks.service
+index 4de6422..78b739f 100644
+--- a/odroid-tweaks.service
++++ b/odroid-tweaks.service
+@@ -15,7 +15,7 @@ After=network-online.target
+ 
+ [Service]
+ Type=forking
+-ExecStart=/bin/odroid-tweaks
++ExecStart=/bin/odroid-tweaks --startup-tweaks
+ TimeoutSec=0
+ RemainAfterExit=yes
+ StandardOutput=journal+console

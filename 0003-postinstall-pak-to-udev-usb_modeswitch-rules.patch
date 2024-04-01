@@ -1,0 +1,25 @@
+diff --git a/postinstall-pak b/postinstall-pak
+index 398b7cd..9508982 100644
+--- a/postinstall-pak
++++ b/postinstall-pak
+@@ -1,15 +1,3 @@
+-#!/bin/bash
+-systemctl enable odroid-tweaks
+-
+-# fix NM not managing ethernet on 16.10 and forward
+-touch /etc/NetworkManager/conf.d/10-globally-managed-devices.conf
+-
+-# fix first image issues
+-sed -i "s/auto eth0//g" /etc/network/interfaces
+-sed -i "s/iface eth0 inet dhcp//g" /etc/network/interfaces
+-
+-# fix udev rules
+-cat << EOF > /lib/udev/rules.d/40-usb_modeswitch.rules
+ # Part of usb-modeswitch-data, version 20191128
+ #
+ # Works with usb_modeswitch versions >= 2.4.0. Slash before %k parameter
+@@ -1269,4 +1257,3 @@ ATTR{idVendor}=="8888", ATTR{idProduct}=="6500", RUN+="usb_modeswitch '/%k'"
+ ATTR{idVendor}=="ed09", ATTR{idProduct}=="1021", RUN+="usb_modeswitch '/%k'"
+ 
+ LABEL="modeswitch_rules_end"
+-EOF

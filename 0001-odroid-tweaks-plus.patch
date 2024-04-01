@@ -1,0 +1,50 @@
+diff --git a/odroid-tweaks b/odroid-tweaks
+index 272e344..29a82db 100755
+--- a/odroid-tweaks
++++ b/odroid-tweaks
+@@ -1,4 +1,14 @@
+ #!/bin/bash
++
++usage() {
++	echo "Usage : odroid-tweaks --heartbeat [on/off]"
++	exit 1
++}
++
++if [[ $(id -u) -ne 0 ]]; then usage; fi
++if [[ -z "$1" ]]; then usage; fi
++
++if [[ "$1" == "--startup-tweaks" ]]; then
+ USB3_IRQ=`cat /proc/interrupts | grep "xhci-hcd:usb3" | awk -F : '{print $1}'`
+ USB5_IRQ=`cat /proc/interrupts | grep "xhci-hcd:usb5" | awk -F : '{print $1}'`
+ echo 5 > /proc/irq/${USB3_IRQ}/smp_affinity_list
+@@ -19,6 +29,7 @@ if [ -e "/usr/lib/chromium-browser/libGLESv2.so" -a -e "/usr/lib/arm-linux-gnuea
+ fi
+ 
+ # attempt to fix mali every reboot in case mesa overwrites it
++if [ -e "/usr/lib/arm-linux-gnueabihf/mali-egl/libmali.so" ]; then
+ rm -fr /etc/ld.so.conf.d/arm-linux-gnueabihf_EGL.conf
+ rm -fr /usr/lib/arm-linux-gnueabihf/mali-egl/ld.so.conf
+ 
+@@ -34,3 +45,22 @@ ln -s /usr/lib/arm-linux-gnueabihf/mali-egl/libmali.so /usr/lib/arm-linux-gnueab
+ ln -s /usr/lib/arm-linux-gnueabihf/mali-egl/libmali.so /usr/lib/arm-linux-gnueabihf/libGLESv1_CM.so
+ ln -s /usr/lib/arm-linux-gnueabihf/mali-egl/libmali.so /usr/lib/arm-linux-gnueabihf/libGLESv2.so.2
+ ln -s /usr/lib/arm-linux-gnueabihf/mali-egl/libmali.so /usr/lib/arm-linux-gnueabihf/libEGL.so.1
++fi
++
++exit 0
++fi
++
++if [[ "$1" == "--heartbeat" ]]; then
++	case "$2" in
++	on)		echo heartbeat > /sys/class/leds/blue\:heartbeat/trigger
++			;;
++	off)	echo none > /sys/class/leds/blue\:heartbeat/trigger
++			;;
++	*)		usage
++			;;
++	esac
++
++	exit 0
++fi
++
++usage

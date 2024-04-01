@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+build() {
+    filesArray=(
+        "/usr/lib/firmware/dvb-fe-*.fw"
+        "/usr/lib/firmware/ene-ub6250/*.bin"
+        "/usr/lib/firmware/kaweth/*.bin"
+        "/usr/lib/firmware/rtl_nic/rtl8153*.fw"
+    )
+    for files in "${filesArray[@]}"; do
+        for file in $files; do
+            if [[ -e "$file" ]]; then
+                add_file "$file"
+            fi
+        done
+    done
+}
+
+help() {
+    cat <<HELPEOF
+This hook adds files needed for ODROID XU3/XU4/HC1/HC2/MC1.
+HELPEOF
+}
